@@ -9,18 +9,18 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     gap: '10px',
     justifyContent: 'center',
-    paddingTop: theme.spacing(4), // Add padding to top of gallery
-    paddingBottom: theme.spacing(4), // Add padding to bottom of gallery
-    background: 'linear-gradient(to bottom right, #303030, #252525)', // Dark-themed subtle gradient
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+    background: 'linear-gradient(to bottom right, #303030, #252525)',
     borderRadius: '10px',
-    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
     padding: theme.spacing(3),
   },
   imageItem: {
     position: 'relative',
     overflow: 'hidden',
     width: 'auto',
-    height: '150px', // Fixed height for the images
+    height: '150px',
     flex: '1 1 auto',
     display: 'flex',
     justifyContent: 'center',
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     width: 'auto',
     maxWidth: '100%',
     height: 'auto',
-    borderRadius: '8px', // Rounded corners for images
+    borderRadius: '8px',
   },
   buttonContainer: {
     display: 'flex',
@@ -53,29 +53,33 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textAlign: 'center',
-    paddingTop: theme.spacing(2), // Add padding above the title
-    color: 'white', // Title text color
+    paddingTop: theme.spacing(2),
+    color: 'white',
   },
 }));
 
 const Gallery = ({ clientImages, personalImages }) => {
   const [showClientArtworks, setShowClientArtworks] = useState(true);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const classes = useStyles();
 
-//   const handleToggleChange = () => {
-//     setShowClientArtworks(!showClientArtworks);
-//   };
-
-  const handleImageClick = (image) => {
-    setSelectedImage(image);
+  const handleImageClick = (index) => {
+    setSelectedImageIndex(index);
     setModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    setSelectedImage(null);
+    setSelectedImageIndex(null);
     setModalOpen(false);
+  };
+
+  const nextImage = () => {
+    setSelectedImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setSelectedImageIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
   };
 
   const images = showClientArtworks ? clientImages : personalImages;
@@ -106,7 +110,7 @@ const Gallery = ({ clientImages, personalImages }) => {
           <div
             key={index}
             className={classes.imageItem}
-            onClick={() => handleImageClick(image)}
+            onClick={() => handleImageClick(index)}
           >
             <img
               src={image.src}
@@ -116,7 +120,14 @@ const Gallery = ({ clientImages, personalImages }) => {
           </div>
         ))}
       </div>
-      <ImageModal open={modalOpen} onClose={handleCloseModal} image={selectedImage} />
+      <ImageModal
+        open={modalOpen}
+        onClose={handleCloseModal}
+        images={images}
+        currentIndex={selectedImageIndex}
+        nextImage={nextImage}
+        prevImage={prevImage}
+      />
     </Container>
   );
 };

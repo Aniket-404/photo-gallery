@@ -1,0 +1,50 @@
+.image-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image-modal {
+    position: relative;
+    outline: none;
+  }
+  
+  .modal-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .full-screen-image {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 10px;
+  }
+  
+  .nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;
+  }
+  
+  .nav-button:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
+  .nav-button:first-of-type {
+    left: 10px;
+  }
+  
+  .nav-button:last-of-type {
+    right: 10px;
+  }
+  
